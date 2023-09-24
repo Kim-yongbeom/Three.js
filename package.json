@@ -1,0 +1,23 @@
+{
+  "name": "three",
+  "version": "1.0.0",
+  "description": "- VSCode\r - Git (Window만 설치하면 된다. Linux, Mac은 기본적으로 설치되어 있음)\r   - git --version 으로 버전 체크\r - Node.js 설치\r   - node -v 와 npm -v 으로 버전 체크\r - TypeScript 설치 (npm install -g typescript)\r   - tsc -v 으로 버전  체크",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kim-yongbeom/Three.js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kim-yongbeom/Three.js/issues"
+  },
+  "homepage": "https://github.com/Kim-yongbeom/Three.js#readme",
+  "devDependencies": {
+    "@types/three": "^0.156.0",
+    "three": "^0.156.1"
+  }
+}
