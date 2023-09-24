@@ -16,14 +16,12 @@
 - npm install three --save-dev
 
 ## Three.js 스터디
-
-```
-1. 폴더 구조
-dist 폴더를 root에 생성
-dist 폴더 안에 client 와 server 폴더 생성
+### 1. 폴더 구조
+- dist 폴더를 root에 생성
+- dist 폴더 안에 client 와 server 폴더 생성
 
 client 안 index.html
---------------------------------------------------------------
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,13 +39,13 @@ client 안 index.html
     <script type="module" src="bundle.js"></script>
 </body>
 </html>
---------------------------------------------------------------
+```
 
-src 폴더를 root에 생성
-src 폴더 안에 client와 server 폴더 생성
+- src 폴더를 root에 생성
+- src 폴더 안에 client와 server 폴더 생성
 
 client 폴더 안에 client.ts
---------------------------------------------------------------
+```
 import * as THREE from 'three'
 
 const scene = new THREE.Scene()
@@ -95,10 +93,10 @@ function render() {
 }
 
 animate()
---------------------------------------------------------------
+```
 
 client 폴더 안에 tsconfig.json
---------------------------------------------------------------
+```
 {
     "compilerOptions": {
         "target": "ES6",
@@ -108,8 +106,7 @@ client 폴더 안에 tsconfig.json
     },
     "include": ["**/*.ts"]
 }
---------------------------------------------------------------
-
-tsconfig.json을 넣으면 client.ts에서 three 라이브러리에서 에러가 발생
-설치: npm install @types/three --save-dev
 ```
+- tsconfig.json을 넣으면 client.ts에서 three 라이브러리에서 에러가 발생
+- 설치: npm install @types/three --save-dev
+
