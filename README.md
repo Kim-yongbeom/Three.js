@@ -16,11 +16,14 @@
 - npm install three --save-dev
 
 ## Three.js 스터디
+
 ### 1. 폴더 구조
+
 - dist 폴더를 root에 생성
 - dist 폴더 안에 client 와 server 폴더 생성
 
 client 안 index.html
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +48,7 @@ client 안 index.html
 - src 폴더 안에 client와 server 폴더 생성
 
 client 폴더 안에 client.ts
+
 ```
 import * as THREE from 'three'
 
@@ -96,6 +100,7 @@ animate()
 ```
 
 client 폴더 안에 tsconfig.json
+
 ```
 {
     "compilerOptions": {
@@ -107,6 +112,67 @@ client 폴더 안에 tsconfig.json
     "include": ["**/*.ts"]
 }
 ```
+
 - tsconfig.json을 넣으면 client.ts에서 three 라이브러리에서 에러가 발생
 - 설치: npm install @types/three --save-dev
 
+### 2.WebPack 설정
+
+- npm install webpack webpack-cli webpack-dev-server webpack-merge ts-loader --save-dev
+- npm install typescript --save-dev
+
+src/client 폴더에 webpack.common.js 생성
+
+```
+const path = require('path')
+
+module.exports = {
+    entry: './src/client/client.ts',
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+        ],
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, '../../dist/client'),
+    },
+}
+```
+
+src/client 폴더에 webpack.dev.js 생성
+
+```
+const { merge } = require('webpack-merge')
+const common = require('./webpack.common.js')
+const path = require('path')
+
+module.exports = merge(common, {
+    mode: 'development',
+    devtool: 'eval-source-map',
+    devServer: {
+        static: {
+            directory: path.join(__dirname, '../../dist/client'),
+        },
+        hot: true,
+    },
+})
+```
+
+package.json
+
+```
+"scripts": {
+    "dev": "webpack serve --config ./src/client/webpack.dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+},
+```
+
+- npm run dev 실행가능!!
