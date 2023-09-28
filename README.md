@@ -17,7 +17,7 @@
 
 ## Three.js 스터디
 
-### 1. 폴더 구조
+### 1. Three.js 시작
 
 - dist 폴더를 root에 생성
 - dist 폴더 안에 client 와 server 폴더 생성
@@ -176,3 +176,19 @@ package.json
 ```
 
 - npm run dev 실행가능!!
+
+### 3. Three.js 의 모듈
+
+src/client 의 client.ts
+
+```
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+...
+const renderer = new THREE.WebGLRenderer()
+renderer.setSize(window.innerWidth, window.innerHeight)
+document.body.appendChild(renderer.domElement)
+
+// 여기에 OrbitControls 추가
+// 마우스 컨트롤 가능 (위, 아래, 왼쪽, 오른쪽, 줌인, 줌아웃)
+new OrbitControls(camera, renderer.domElement)
+```
