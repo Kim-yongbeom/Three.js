@@ -177,7 +177,7 @@ package.json
 
 - npm run dev 실행가능!!
 
-### 3. Three.js 의 모듈
+### 3. Three.js 실습 - 랜더러와 카메라의 관계
 
 src/client 의 client.ts
 
@@ -191,4 +191,172 @@ document.body.appendChild(renderer.domElement)
 // 여기에 OrbitControls 추가
 // 마우스 컨트롤 가능 (위, 아래, 왼쪽, 오른쪽, 줌인, 줌아웃)
 new OrbitControls(camera, renderer.domElement)
+```
+
+기존에는 document.body.appendChild(renderer.domElement)을 사용해서 동적으로 canvas 태그를 만들어 주었지만 여러개의 canvas를 만들어줄때 <canvas id="c1" class="c"></canvas> 처럼 html에 추가해서 직접 canvas를 넣어주는 방식도 선호한다.
+
+dist/client/index.html
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0px;
+        }
+
+        .c {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c1" class="c"></canvas>
+    <canvas id="c2" class="c"></canvas>
+    <canvas id="c3" class="c"></canvas>
+    <canvas id="c4" class="c"></canvas>
+    <script type="module" src="bundle.js"></script>
+</body>
+</html>
+```
+
+scr/client/client.ts
+THREE.WebGLRenderer()에 직접 HTML에 설정된 id를 getElementById로 엘리먼트를 가져와서 넣어준다.
+
+```
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+
+const scene = new THREE.Scene()
+
+const camera = new THREE.PerspectiveCamera(
+    75,
+    1,
+    0.1,
+    1000
+)
+camera.position.z = 2
+
+const canvas1 = document.getElementById("c1") as HTMLCanvasElement
+const canvas2 = document.getElementById("c2") as HTMLCanvasElement
+const canvas3 = document.getElementById("c3") as HTMLCanvasElement
+const canvas4 = document.getElementById("c4") as HTMLCanvasElement
+
+const renderer1 = new THREE.WebGLRenderer({canvas:canvas1})
+renderer1.setSize(200, 200)
+const renderer2 = new THREE.WebGLRenderer({canvas:canvas2})
+renderer2.setSize(200, 200)
+const renderer3 = new THREE.WebGLRenderer({canvas:canvas3})
+renderer3.setSize(200, 200)
+const renderer4 = new THREE.WebGLRenderer({canvas:canvas4})
+renderer4.setSize(200, 200)
+// document.body.appendChild(renderer.domElement)
+
+new OrbitControls(camera, renderer1.domElement)
+
+const geometry = new THREE.BoxGeometry()
+const material = new THREE.MeshBasicMaterial({
+    color: 0x00ff00,
+    wireframe: true,
+})
+
+const cube = new THREE.Mesh(geometry, material)
+scene.add(cube)
+
+// window.addEventListener('resize', onWindowResize, false)
+// function onWindowResize() {
+//     camera.aspect = window.innerWidth / window.innerHeight
+//     camera.updateProjectionMatrix()
+//     renderer.setSize(window.innerWidth, window.innerHeight)
+//     render()
+// }
+
+function animate() {
+    requestAnimationFrame(animate)
+
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
+
+    render()
+}
+
+function render() {
+    renderer1.render(scene, camera)
+    renderer2.render(scene, camera)
+    renderer3.render(scene, camera)
+    renderer4.render(scene, camera)
+}
+
+animate()
+```
+
+카메라도 여러개 사용 가능
+
+```
+const camera1 = new THREE.PerspectiveCamera(
+    75,
+    1,
+    0.1,
+    1000
+)
+const camera2 = new THREE.OrthographicCamera(-2,2,2,-2)
+const camera3 = new THREE.OrthographicCamera(-2,2,2,-2)
+const camera4 = new THREE.OrthographicCamera(-2,2,2,-2)
+camera1.position.z = 2
+
+camera2.position.y = 2
+camera2.lookAt(new THREE.Vector3())
+
+camera3.position.x = -2
+camera3.lookAt(new THREE.Vector3(0,0,0))
+
+camera4.position.z = 2
+```
+
+모형과 크기 변경 가능
+
+```
+// 모형 변경
+// const geometry = new THREE.BoxGeometry()
+const geometry = new THREE.TorusGeometry()
+
+...
+
+const cube = new THREE.Mesh(geometry, material)
+// 모형의 크기 변경
+cube.scale.x = 0.8
+cube.scale.y = 0.8
+cube.scale.z = 0.8
+scene.add(cube)
+```
+
+scene도 새롭게 추가 가능
+
+- cube는 scene의 일부이기 때문에 다른 scene에서 호출 X
+
+```
+const scene = new THREE.Scene()
+const scene2 = new THREE.Scene()
+
+...
+
+const cube = new THREE.Mesh(geometry, material)
+cube.scale.x = 0.8
+cube.scale.y = 0.8
+cube.scale.z = 0.8
+scene.add(cube)
+scene2.add(cube)
+
+// 실행결과는 마지막으로 scene을 호출한 renderer 에서만 cube가 보이게 된다.
+// scene2에서만 보인다. 그래서 새롭게 cube를 만들어 줘야 한다.
+
+const cube2 = new THREE.Mesh(geometry, material)
+scene2.add(cube2)
+
 ```
