@@ -438,3 +438,35 @@ animate()
 - dat.GUI는 값을 GUI를 통해 직관적으로 변경하여 기능을 테스트해 볼 수 있는 javascript 기반의 매우 직관적인 라이브러리이다.
 - npm install dat.gui --save-dev
 - npm install @types/dat.gui --save-dev
+
+src/client/animate.ts
+
+```
+import { GUI } from 'dat.gui'
+
+...
+
+const gui = new GUI()
+const cubeFolder = gui.addFolder('Cube')
+// Math.PI === 3.141592653589793
+cubeFolder.add(cube.rotation, 'x', 0, Math.PI * 2)
+cubeFolder.add(cube.rotation, 'y', 0, Math.PI * 2)
+cubeFolder.add(cube.rotation, 'z', 0, Math.PI * 2)
+cubeFolder.open()
+const cameraFolder = gui.addFolder('Camera')
+cameraFolder.add(camera.position, 'z', 0, 10)
+cameraFolder.open()
+
+function animate() {
+    requestAnimationFrame(animate)
+
+    // 기존에는 animate 함수에서 자동으로 rotation 값을 변경해주었지만
+    // 지금은 GUI로 변경중
+    // cube.rotation.x += 0.01
+    // cube.rotation.y += 0.01
+
+    render()
+
+    stats.update()
+}
+```
