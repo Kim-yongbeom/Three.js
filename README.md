@@ -360,3 +360,81 @@ const cube2 = new THREE.Mesh(geometry, material)
 scene2.add(cube2)
 
 ```
+
+### 3. Three.js 실습 - 애니메이션 통계
+
+- Stats 사용!! (개발할 때 주로 사용한다.)
+- src/client에 새로운 animate.ts 파일을 생성해 준다.
+- webpack.common.js 에서 `entry: './src/client/animate.ts'` 처럼 animate로 변경
+
+src/client/animate.ts
+
+```
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+// 스텟 호출
+import Stats from 'three/examples/jsm/libs/stats.module'
+
+const scene = new THREE.Scene()
+
+const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+)
+camera.position.z = 2
+
+const renderer = new THREE.WebGLRenderer()
+renderer.setSize(window.innerWidth, window.innerHeight)
+document.body.appendChild(renderer.domElement)
+
+const controls = new OrbitControls(camera, renderer.domElement)
+//controls.addEventListener('change', render)
+
+const geometry = new THREE.BoxGeometry()
+const material = new THREE.MeshBasicMaterial({
+    color: 0x00ff00,
+    wireframe: true,
+})
+
+const cube = new THREE.Mesh(geometry, material)
+scene.add(cube)
+
+window.addEventListener('resize', onWindowResize, false)
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    render()
+}
+
+// stats 생성
+const stats = new Stats()
+document.body.appendChild(stats.dom)
+
+function animate() {
+    // 애니메이션 프레임을 요청하여 애니메이션을 반복 실행합니다.
+    requestAnimationFrame(animate)
+
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
+
+    render()
+
+    // 애니메이션 루프 안에 넣어줘야 애니메이션의 상태를 확인할 수 있다.
+    stats.update()
+}
+
+function render() {
+    renderer.render(scene, camera)
+}
+
+animate()
+```
+
+### 4. Three.js 실습 - dat.GUI
+
+- dat.GUI는 값을 GUI를 통해 직관적으로 변경하여 기능을 테스트해 볼 수 있는 javascript 기반의 매우 직관적인 라이브러리이다.
+- npm install dat.gui --save-dev
+- npm install @types/dat.gui --save-dev
