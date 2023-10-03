@@ -470,3 +470,33 @@ function animate() {
     stats.update()
 }
 ```
+
+### 5. Three.js 실습 - Object 3D
+
+- Object3D는 Three.js의 많은 개체에 대한 기본 클래스로 3D 공간에서 개체를 조작하기 위한 메서드와 속성을 제공한다.
+- 위에서 만든 cube의 메서드를 확인해보면 Object 3D에서 가져오는것이 많은걸 확인 가능
+
+```
+const gui = new GUI()
+const cubeFolder = gui.addFolder('Cube')
+const cubeRotationFolder = cubeFolder.addFolder('Rotation')
+cubeRotationFolder.add(cube.rotation, 'x', 0, Math.PI * 2)
+cubeRotationFolder.add(cube.rotation, 'y', 0, Math.PI * 2)
+cubeRotationFolder.add(cube.rotation, 'z', 0, Math.PI * 2)
+cubeFolder.open()
+cubeRotationFolder.open()
+const cubePositionFolder = cubeFolder.addFolder('Position')
+cubePositionFolder.add(cube.position, 'x', -10, 10)
+cubePositionFolder.add(cube.position, 'y', -10, 10)
+cubePositionFolder.add(cube.position, 'z', -10, 10)
+cubePositionFolder.open()
+const cubeScaleFolder = cubeFolder.addFolder('Scale')
+cubeScaleFolder.add(cube.scale, 'x', 0, 5)
+cubeScaleFolder.add(cube.scale, 'y', 0, 5)
+cubeScaleFolder.add(cube.scale, 'z', 0, 5)
+cubeScaleFolder.open()
+
+function animate() {
+    ...
+}
+```
