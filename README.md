@@ -489,14 +489,31 @@ const cubePositionFolder = cubeFolder.addFolder('Position')
 cubePositionFolder.add(cube.position, 'x', -10, 10)
 cubePositionFolder.add(cube.position, 'y', -10, 10)
 cubePositionFolder.add(cube.position, 'z', -10, 10)
+// 매개변수로 마지막에 2를 넣게 되면 2씩 이동
+// cubePositionFolder.add(cube.position, 'x', -10, 10, 2)
+// cubePositionFolder.add(cube.position, 'y', -10, 10, 2)
+// cubePositionFolder.add(cube.position, 'z', -10, 10, 2)
 cubePositionFolder.open()
 const cubeScaleFolder = cubeFolder.addFolder('Scale')
 cubeScaleFolder.add(cube.scale, 'x', 0, 5)
 cubeScaleFolder.add(cube.scale, 'y', 0, 5)
 cubeScaleFolder.add(cube.scale, 'z', 0, 5)
+// cube 조회 선택가능
+// cubeFolder.add(cube, "visible")
 cubeScaleFolder.open()
 
 function animate() {
     ...
 }
 ```
+
+- position이 이동하는걸 더 잘 보이기 위해서
+
+```
+// 최상단
+const scene = new THREE.Scene()
+// AxesHepler(5) 에서 5는 축의 길이!
+scene.add(new THREE.AxesHelper(5))
+```
+
+### 6. Three.js 실습 - Object 3D 계층

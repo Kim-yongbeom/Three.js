@@ -4,6 +4,8 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'dat.gui'
 
 const scene = new THREE.Scene()
+// AxesHepler(5) 에서 5는 축의 길이!
+scene.add(new THREE.AxesHelper(5))
 
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -58,6 +60,7 @@ const cubeScaleFolder = cubeFolder.addFolder('Scale')
 cubeScaleFolder.add(cube.scale, 'x', 0, 5)
 cubeScaleFolder.add(cube.scale, 'y', 0, 5)
 cubeScaleFolder.add(cube.scale, 'z', 0, 5)
+cubeFolder.add(cube, "visible")
 cubeScaleFolder.open()
 
 function animate() {
