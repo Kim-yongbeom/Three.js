@@ -117,3 +117,125 @@ if (WebGL.isWebGLAvailable) {
     document.body.appendChild(WebGL.getWebGLErrorMessage)
 }
 ```
+
+## 3. Three.js 3가지 기본 구성 요소
+
+- 1. Scene: 화면에서 보여주려는 객체를 담는 공간
+- 2. Camera: Scene을 바라볼 시점을 결정
+- 3. Renderer: Scene + Camera 화면을 그려주는 역할
+  - WebGL 기반으로 Render 해줌
+
+src/js/index.js
+
+```
+import * as THREE from "three";
+
+// 1. Scene: 화면에서 보여주려는 객체를 담는 공간
+const scene = new THREE.Scene();
+
+// 2. Camera: Scene을 바라볼 시점을 결정
+const camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+)
+
+// 3. Renderer: Scene + Camera 화면을 그려주는 역할
+// WebGL 기반으로 Render 해줌
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+console.log(renderer); // renderer -> domElement -> canvas 확인가능
+```
+
+console 주석 처리 후 html body에 canvas를 추가해준다.
+
+```
+// console.log(renderer); // renderer -> domElement -> canvas 확인가능
+document.body.appendChild(renderer.domElement);
+```
+
+```
+import * as THREE from "three";
+
+const scene = new THREE.Scene();
+// scene의 기본 배경색은 검정색, 배경색 커스텀 가능
+scene.background = new THREE.Color(0xffe287)
+
+const camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+)
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// renderer에 scene, camera 추가
+renderer.render(scene, camera)
+```
+
+## 4. Three.js - geometry
+
+- Three.js 에서 지원하는 geometry가 많다.
+
+```
+import * as THREE from "three";
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffe287)
+
+const camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+)
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// BoxGeometry 사용
+const geomety = new THREE.BoxGeometry(1,1,1);
+const material = new THREE.MeshStandardMaterial({
+    color: 0x2E6FF2
+})
+const box = new THREE.Mesh(geomety, material);
+// scene에 box 추가
+scene.add(box);
+renderer.render(scene, camera)
+```
+
+- scene에 box를 추가 했지만 화면에 보이지 않는다.
+
+```
+import * as THREE from "three";
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffe287)
+
+const camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+)
+// 카메라 속성값을 설정해 주어야함
+camera.position.set(2,2,2); // 카메라의 위치(크기 조절??)
+camera.lookAt(0,0,0) // 카메라가 어떤 지점을 바라보도록 하는 방향 조절
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const geomety = new THREE.BoxGeometry(1,1,1);
+const material = new THREE.MeshStandardMaterial({
+    color: 0x2E6FF2
+})
+const box = new THREE.Mesh(geomety, material);
+scene.add(box);
+renderer.render(scene, camera)
+```
