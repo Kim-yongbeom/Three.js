@@ -16,6 +16,10 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+const light = new THREE.DirectionalLight(0xffffff);
+light.position.set(2,4,3)
+scene.add(light);
+
 const geomety = new THREE.BoxGeometry(1,1,1);
 const material = new THREE.MeshStandardMaterial({
     color: 0x2E6FF2

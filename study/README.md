@@ -239,3 +239,78 @@ const box = new THREE.Mesh(geomety, material);
 scene.add(box);
 renderer.render(scene, camera)
 ```
+
+- 빛을 추가하지 않아서 box가 검은색으로 보인다.
+
+```
+import * as THREE from "three";
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffe287)
+
+const camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+)
+camera.position.set(2,2,2);
+camera.lookAt(0,0,0)
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// 빛을 DirectionalLight으로 추가해주고 position과 scene에 설정을 해주어야 빛이 제대로 적용된다.
+const light = new THREE.DirectionalLight(0xffffff);
+light.position.set(2,4,3)
+scene.add(light);
+
+const geomety = new THREE.BoxGeometry(1,1,1);
+const material = new THREE.MeshStandardMaterial({
+    color: 0x2E6FF2
+})
+const box = new THREE.Mesh(geomety, material);
+scene.add(box);
+renderer.render(scene, camera)
+```
+
+## 4. Three.js - Camera (PerspectiveCamera)
+
+- Three.js 에서는 여러 카메라를 제공하며, 대표적으로 `PerspectiveCamera`와 `OrthographicCamera`를 사용한다.
+- PerspectiveCamera: 원근감을 적용하여 객체를 투영하는 카메라로, 3D 공간감을 표현
+- OrthographicCamera: 원근감 없이 평면적인 투영을 적용하는 카메라
+- 실습에서 사용한 카메라는 PerspectiveCamera
+
+```
+import * as THREE from "three";
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffe287)
+
+const camera = new THREE.PerspectiveCamera(
+    50, // fov: 시야각, 커질 수록 화면에 많은 영역을 출력
+    window.innerWidth / window.innerHeight, // aspect: 카메라의 종횡비, 가로와 세로의 비율
+    0.1, // near: 카메라로 볼 수 있는 최소 거리 (범위 밖은 렌더링 되지 않는다.)
+    1000 // far: 카메라로 볼 수 있는 최대 거리 (범위 밖은 렌더링 되지 않는다.)
+)
+camera.position.set(2,2,2);
+camera.lookAt(0,0,0)
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// 빛을 DirectionalLight으로 추가해주고 position과 scene에 설정을 해주어야 빛이 제대로 적용된다.
+const light = new THREE.DirectionalLight(0xffffff);
+light.position.set(2,4,3)
+scene.add(light);
+
+const geomety = new THREE.BoxGeometry(1,1,1);
+const material = new THREE.MeshStandardMaterial({
+    color: 0x2E6FF2
+})
+const box = new THREE.Mesh(geomety, material);
+scene.add(box);
+renderer.render(scene, camera)
+```
