@@ -1,19 +1,24 @@
 import * as THREE from "three";
 
+const $result = document.getElementById('result');
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffe287)
 
 const camera = new THREE.PerspectiveCamera(
     50,
-    window.innerWidth / window.innerHeight,
+    $result.clientWidth/$result.clientHeight,
     0.1,
     1000
 )
 camera.position.set(2,2,2);
 camera.lookAt(0,0,0)
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
+const renderer = new THREE.WebGLRenderer({
+    canvas: $result,
+    antialias: true
+});
+renderer.setSize($result.clientWidth, $result.clientHeight);
 document.body.appendChild(renderer.domElement);
 
 const light = new THREE.DirectionalLight(0xffffff);

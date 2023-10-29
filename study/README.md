@@ -314,3 +314,100 @@ const box = new THREE.Mesh(geomety, material);
 scene.add(box);
 renderer.render(scene, camera)
 ```
+
+## 4. Three.js - canvas에 직접 넣기
+
+- index.html에 추가
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./node_modules/three/build/three.module.js"
+            }
+        }
+    </script>
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+</head>
+<body>
+    <!-- 캔버스를 추가해준다 -->
+    <canvas id="result" style="border:1px solid red; width:500px; height:500px;"></canvas>
+    <script src="./src/js/index.js" type="module"></script>
+</body>
+</html>
+```
+
+- index.js에 작성한 canvas를 적용
+
+```
+import * as THREE from "three";
+
+// html에서 result라는 id값을 찾음
+const $result = document.getElementById('result');
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffe287)
+
+const camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+)
+camera.position.set(2,2,2);
+camera.lookAt(0,0,0)
+
+// THREE.WebGLRenderer에 canvas: $result 값을 넣어줌
+const renderer = new THREE.WebGLRenderer({
+    canvas: $result
+});
+// renderer의 setSize에서 window.innerWidth, window.innerHeight 때문에
+// html 의 canvas에서 설정한 스타일이 먹히지 않아서 주석 처리
+// renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const light = new THREE.DirectionalLight(0xffffff);
+light.position.set(2,4,3)
+scene.add(light);
+
+const geomety = new THREE.BoxGeometry(1,1,1);
+const material = new THREE.MeshStandardMaterial({
+    color: 0x2E6FF2
+})
+const box = new THREE.Mesh(geomety, material);
+scene.add(box);
+renderer.render(scene, camera)
+...
+```
+
+- 사이즈를 억지로 조정해서 계단현상이 발생한다.
+- 해결법
+
+```
+// renderer 설정에서 antialias: true 를 추가해주면 계단현상이 어느정도 해결됨
+const renderer = new THREE.WebGLRenderer({
+    canvas: $result,
+    antialias: true
+});
+// renderer setSize를 $result의 widht와 height 값을 적용시켜 준다.
+renderer.setSize($result.clientWidth, $result.clientHeight);
+```
+
+- 만약 html의 canvas 스타일에서 height를 800px로 변경하면 박스가 왜곡된다.
+- 이유: 카메라의 종횡비와 캔버스의 크기가 다르기 때문
+
+```
+// 카메라 설정도 $result 의 크기에 맞춰주자
+const camera = new THREE.PerspectiveCamera(
+    50,
+    $result.clientWidth/$result.clientHeight,
+    0.1,
+    1000
+)
+```
