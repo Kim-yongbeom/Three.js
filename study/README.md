@@ -275,7 +275,7 @@ scene.add(box);
 renderer.render(scene, camera)
 ```
 
-## 4. Three.js - Camera (PerspectiveCamera)
+## 5. Three.js - Camera (PerspectiveCamera)
 
 - Three.js 에서는 여러 카메라를 제공하며, 대표적으로 `PerspectiveCamera`와 `OrthographicCamera`를 사용한다.
 - PerspectiveCamera: 원근감을 적용하여 객체를 투영하는 카메라로, 3D 공간감을 표현
@@ -315,7 +315,7 @@ scene.add(box);
 renderer.render(scene, camera)
 ```
 
-## 4. Three.js - canvas에 직접 넣기
+## 6. Three.js - canvas에 직접 넣기
 
 - index.html에 추가
 
@@ -418,7 +418,7 @@ const camera = new THREE.PerspectiveCamera(
 <canvas id="result" style="width: 100%; height: 100%"></canvas>
 ```
 
-## 4. Three.js - 애니메이션, 반응형
+## 7. Three.js - 애니메이션, 반응형
 
 - 애니메이션
 
