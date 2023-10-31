@@ -411,3 +411,37 @@ const camera = new THREE.PerspectiveCamera(
     1000
 )
 ```
+
+- canvas의 스타일을 변경해주자
+
+```
+<canvas id="result" style="width: 100%; height: 100%"></canvas>
+```
+
+## 4. Three.js - 애니메이션, 반응형
+
+- 애니메이션
+
+```
+function animate() {
+  box.rotation.y += 0.01;
+  // renderer에서 render를 시켜줘야 애니메이션이 적용된다.
+  renderer.render(scene, camera);
+  // js에서 제공하는 requestAnimationFrame
+  requestAnimationFrame(animate);
+}
+animate();
+```
+
+- 반응형
+
+```
+window.addEventListener("resize", () => {
+  // 1. 카메라의 종횡비
+  camera.aspect = window.innerWidth / window.innerHeight;
+  // 2. 카메라 업데이트
+  camera.updateProjectionMatrix();
+  // 3. 렌더러의 크기
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+```
