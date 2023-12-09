@@ -851,7 +851,7 @@ const light = new THREE.DirectionalLight(0xffffff);
 light.position.set(2, 4, 3);
 scene.add(light);
 
-// 나무
+// 줄기
 const trunkMaterial = new THREE.MeshStandardMaterial({
   color: 0xa38049,
 });
@@ -905,6 +905,249 @@ leaf4.rotation.x = Math.PI / -2;
 leaf4.rotation.z = Math.PI / -2;
 leaf4.position.set(-2, 3.2, 0);
 scene.add(leaf4);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+
+function animate() {
+  renderer.render(scene, camera);
+  controls.update();
+  requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+```
+
+## 12. Three.js - Group
+
+```
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
+const $result = document.getElementById("result");
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffe287);
+
+const camera = new THREE.PerspectiveCamera(
+  50,
+  $result.clientWidth / $result.clientHeight,
+  0.1,
+  1000
+);
+camera.position.set(8, 8, 8);
+camera.lookAt(0, 0, 0);
+
+const renderer = new THREE.WebGLRenderer({
+  canvas: $result,
+  antialias: true,
+});
+renderer.setSize($result.clientWidth, $result.clientHeight);
+document.body.appendChild(renderer.domElement);
+
+const light = new THREE.DirectionalLight(0xffffff);
+light.position.set(2, 4, 3);
+scene.add(light);
+
+// 줄기
+const trunk = new THREE.Group();
+
+const trunkMaterial = new THREE.MeshStandardMaterial({
+  color: 0xa38049,
+});
+const trunkGeometry = new THREE.CylinderGeometry(0.8, 1, 1.5);
+const trunk1 = new THREE.Mesh(trunkGeometry, trunkMaterial);
+// scene 대신 group 추가
+trunk.add(trunk1);
+const trunk2 = new THREE.Mesh(trunkGeometry, trunkMaterial);
+trunk2.position.set(0.1, 1.3, 0);
+trunk2.scale.set(0.9, 0.9, 0.9);
+trunk2.rotation.z = THREE.MathUtils.degToRad(-5);
+// scene 대신 group 추가
+trunk.add(trunk2);
+const trunk3 = new THREE.Mesh(trunkGeometry, trunkMaterial);
+trunk3.position.set(0.2, 2.5, 0);
+trunk3.scale.set(0.8, 0.8, 0.8);
+trunk3.rotation.z = THREE.MathUtils.degToRad(-5);
+// scene 대신 group 추가
+trunk.add(trunk3);
+const trunk4 = new THREE.Mesh(trunkGeometry, trunkMaterial);
+trunk4.position.set(0.3, 3.5, 0);
+trunk4.scale.set(0.7, 0.7, 0.7);
+trunk4.rotation.z = THREE.MathUtils.degToRad(-8);
+// scene 대신 group 추가
+trunk.add(trunk4);
+
+// group 설정 가능
+// trunk.position.x = 2
+
+// group을 scene에 추가
+scene.add(trunk);
+
+// 나뭇잎
+const leaf = new THREE.Group();
+
+const leafMaterial = new THREE.MeshStandardMaterial({
+  color: 0x84ad88,
+  side: THREE.DoubleSide,
+});
+const leafGeometry = new THREE.SphereGeometry(
+  2,
+  32,
+  16,
+  Math.PI / 3,
+  Math.PI / 3
+);
+const leaf1 = new THREE.Mesh(leafGeometry, leafMaterial);
+leaf1.rotation.x = Math.PI / -2;
+leaf1.position.set(0, 3.2, 2);
+leaf.add(leaf1);
+const leaf2 = new THREE.Mesh(leafGeometry, leafMaterial);
+leaf2.rotation.x = Math.PI / -2;
+leaf2.rotation.z = Math.PI / 2;
+leaf2.position.set(2, 3.2, 0);
+leaf.add(leaf2);
+const leaf3 = new THREE.Mesh(leafGeometry, leafMaterial);
+leaf3.rotation.x = Math.PI / -2;
+leaf3.rotation.z = Math.PI;
+leaf3.position.set(0, 3.2, -2);
+leaf.add(leaf3);
+const leaf4 = new THREE.Mesh(leafGeometry, leafMaterial);
+leaf4.rotation.x = Math.PI / -2;
+leaf4.rotation.z = Math.PI / -2;
+leaf4.position.set(-2, 3.2, 0);
+leaf.add(leaf4);
+
+// group 설정 가능
+leaf.position.x = -0.4;
+leaf.rotation.z = THREE.MathUtils.degToRad(-10);
+
+scene.add(leaf)
+
+const controls = new OrbitControls(camera, renderer.domElement);
+
+function animate() {
+  renderer.render(scene, camera);
+  controls.update();
+  requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+```
+
+- 줄기(그룹)와 나뭇잎(그룹)을 자식그룹으로 설정 가능
+
+```
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
+const $result = document.getElementById("result");
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffe287);
+
+const camera = new THREE.PerspectiveCamera(
+  50,
+  $result.clientWidth / $result.clientHeight,
+  0.1,
+  1000
+);
+camera.position.set(8, 8, 8);
+camera.lookAt(0, 0, 0);
+
+const renderer = new THREE.WebGLRenderer({
+  canvas: $result,
+  antialias: true,
+});
+renderer.setSize($result.clientWidth, $result.clientHeight);
+document.body.appendChild(renderer.domElement);
+
+const light = new THREE.DirectionalLight(0xffffff);
+light.position.set(2, 4, 3);
+scene.add(light);
+
+// 나무
+const tree = new THREE.Group();
+
+const trunk = new THREE.Group();
+
+const trunkMaterial = new THREE.MeshStandardMaterial({
+  color: 0xa38049,
+});
+const trunkGeometry = new THREE.CylinderGeometry(0.8, 1, 1.5);
+const trunk1 = new THREE.Mesh(trunkGeometry, trunkMaterial);
+trunk.add(trunk1);
+const trunk2 = new THREE.Mesh(trunkGeometry, trunkMaterial);
+trunk2.position.set(0.1, 1.3, 0);
+trunk2.scale.set(0.9, 0.9, 0.9);
+trunk2.rotation.z = THREE.MathUtils.degToRad(-5);
+trunk.add(trunk2);
+const trunk3 = new THREE.Mesh(trunkGeometry, trunkMaterial);
+trunk3.position.set(0.2, 2.5, 0);
+trunk3.scale.set(0.8, 0.8, 0.8);
+trunk3.rotation.z = THREE.MathUtils.degToRad(-5);
+trunk.add(trunk3);
+const trunk4 = new THREE.Mesh(trunkGeometry, trunkMaterial);
+trunk4.position.set(0.3, 3.5, 0);
+trunk4.scale.set(0.7, 0.7, 0.7);
+trunk4.rotation.z = THREE.MathUtils.degToRad(-8);
+trunk.add(trunk4);
+// 나무 그룹에 줄기 포함
+tree.add(trunk);
+
+// 나뭇잎
+const leaf = new THREE.Group();
+
+const leafMaterial = new THREE.MeshStandardMaterial({
+  color: 0x84ad88,
+  side: THREE.DoubleSide,
+});
+const leafGeometry = new THREE.SphereGeometry(
+  2,
+  32,
+  16,
+  Math.PI / 3,
+  Math.PI / 3
+);
+const leaf1 = new THREE.Mesh(leafGeometry, leafMaterial);
+leaf1.rotation.x = Math.PI / -2;
+leaf1.position.set(0, 3.2, 2);
+leaf.add(leaf1);
+const leaf2 = new THREE.Mesh(leafGeometry, leafMaterial);
+leaf2.rotation.x = Math.PI / -2;
+leaf2.rotation.z = Math.PI / 2;
+leaf2.position.set(2, 3.2, 0);
+leaf.add(leaf2);
+const leaf3 = new THREE.Mesh(leafGeometry, leafMaterial);
+leaf3.rotation.x = Math.PI / -2;
+leaf3.rotation.z = Math.PI;
+leaf3.position.set(0, 3.2, -2);
+leaf.add(leaf3);
+const leaf4 = new THREE.Mesh(leafGeometry, leafMaterial);
+leaf4.rotation.x = Math.PI / -2;
+leaf4.rotation.z = Math.PI / -2;
+leaf4.position.set(-2, 3.2, 0);
+leaf.add(leaf4);
+
+leaf.position.x = -0.4;
+leaf.rotation.z = THREE.MathUtils.degToRad(-10);
+// 나무 그룹에 나뭇잎 포함
+tree.add(leaf)
+// 그룹 조작 가능
+tree.position.x = 2
+
+scene.add(tree)
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
