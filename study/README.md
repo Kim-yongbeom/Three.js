@@ -465,6 +465,10 @@ window.addEventListener("resize", () => {
 - index.js
 
 ```
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+
+...
+
 const controls = new OrbitControls(camera, renderer.domElement)
 function animate() {
   // box.rotation.y += 0.01;
