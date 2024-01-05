@@ -383,7 +383,6 @@ const material = new THREE.MeshStandardMaterial({
 const box = new THREE.Mesh(geometry, material);
 scene.add(box);
 renderer.render(scene, camera)
-...
 ```
 
 - 사이즈를 억지로 조정해서 계단현상이 발생한다.
