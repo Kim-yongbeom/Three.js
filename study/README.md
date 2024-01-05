@@ -465,6 +465,7 @@ window.addEventListener("resize", () => {
 - index.js
 
 ```
+import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 ...
@@ -496,6 +497,7 @@ const box = new THREE.Mesh(geometry, material);
 
 ```
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 const $result = document.getElementById("result");
 
@@ -585,6 +587,7 @@ window.addEventListener("resize", () => {
 
 ```
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 const $result = document.getElementById("result");
 
@@ -679,6 +682,7 @@ window.addEventListener("resize", () => {
 
 ```
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 const $result = document.getElementById("result");
 
