@@ -34,6 +34,7 @@ index.html
 ```
 
 - npm install three@0.152.2 (node 깔려있어야함)
+- 현재 node 환경은 16.17.1 버전
 
 src/js/index.js
 
