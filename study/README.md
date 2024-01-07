@@ -39,7 +39,7 @@ index.html
 src/js/index.js
 
 ```
-import * as THREE from "../../node_modules/three/build/three.module";
+import * as THREE from "three";
 
 console.log(THREE)
 ```
