@@ -136,10 +136,10 @@ const scene = new THREE.Scene();
 
 // 2. Camera: Scene을 바라볼 시점을 결정
 const camera = new THREE.PerspectiveCamera(
-    50,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
+    50, // fov(Field of View): 시야각 -> 카메라로 볼 수 있는 영역의 각도를 나타내고 각도가 클수록 시야가 넓어짐
+    window.innerWidth / window.innerHeight, // aspect: 화면의 가로 세로 비율을 나타낸다. 보통 웹 브라우저에서는 window.innerWidth / window.innerHeight와 같이 사용됨
+    0.1, // near: 카메라로부터 물체까지의 최소 거리입니다. 이 거리 이내의 물체는 렌더링되지 않습니다.
+    1000 // far: 카메라로부터 물체까지의 최대 거리입니다. 이 거리 이상의 물체는 렌더링되지 않습니다.
 )
 
 // 3. Renderer: Scene + Camera 화면을 그려주는 역할
