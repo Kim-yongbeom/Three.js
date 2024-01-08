@@ -428,6 +428,7 @@ function animate() {
   // renderer에서 render를 시켜줘야 애니메이션이 적용된다.
   renderer.render(scene, camera);
   // js에서 제공하는 requestAnimationFrame
+  //window.requestAnimationFrame() 메서드는 브라우저에게 수행하기를 원하는 애니메이션을 알리고 다음 리페인트 바로 전에 브라우저가 애니메이션을 업데이트할 지정된 함수를 호출하도록 요청합니다. 이 메서드는 리페인트 이전에 호출할 인수로 콜백을 받습니다.
   requestAnimationFrame(animate);
 }
 animate();
